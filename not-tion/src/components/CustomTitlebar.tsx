@@ -1,15 +1,48 @@
-import { getCurrentWindow } from "@tauri-apps/api/window";
+import { getCurrentWindow, Window } from "@tauri-apps/api/window";
+import { useEffect, useState } from "react";
+import { X, Maximize, Minimize, Minus, NotepadText } from "lucide-react";
 
-function CustomTitlebar() {
-    const appWindow = getCurrentWindow();
+export default function CustomTitlebar() {
+  const [win, setWin] = useState<Window | null>(null);
+  const [isMaximized, setIsMaximized] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      const w = await getCurrentWindow();
+      setWin(w);
+      setIsMaximized(await w.isMaximized());
+    };
+    init();
+  }, []);
+
+  if (!win) return null;
+
   return (
-    <div className="flex  w-full [&>button]:hover:cursor-pointer [&>button]:p-1 [&>button]:border-l-1 [&>button]:border-r-1 border-b-1" >
-      <button className="hover:bg-red-600 transition-colors duration-100 ease-out" onClick={() => {appWindow.close()}}>X</button>
-      <button onClick={() => {appWindow.toggleMaximize()}}>S</button>
-      <button onClick={() => {appWindow.minimize()}}>M</button>
-      <div className="bg-gray-300 w-screen" data-tauri-drag-region></div>
+    <div className="fixed top-0 left-0 right-0 z-50 flex h-10 items-center bg-slate-600 justify-between">
+      <div
+        data-tauri-drag-region
+        className=" w-full flex self-stretch items-center gap-x-2 text-white font-light"
+      >
+        <NotepadText className="ml-4" />
+        <p>not-tion</p>
+      </div>
+      <div className="flex [&>button]:p-2 self-stretch text-gray-400 [&>button]:hover:text-white">
+        <button className="hover:bg-slate-700" onClick={() => win.minimize()}>
+          <Minus size={16} />
+        </button>
+        <button
+          className="hover:bg-slate-700"
+          onClick={async () => {
+            await win.toggleMaximize();
+            setIsMaximized(await win.isMaximized());
+          }}
+        >
+          {isMaximized ? <Minimize size={16} /> : <Maximize size={16} />}
+        </button>
+        <button className="hover:bg-red-600" onClick={() => win.close()}>
+          <X size={16} />
+        </button>
+      </div>
     </div>
   );
 }
-
-export default CustomTitlebar;
