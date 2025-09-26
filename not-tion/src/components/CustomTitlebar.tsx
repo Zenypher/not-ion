@@ -18,20 +18,23 @@ export default function CustomTitlebar() {
   if (!win) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex h-10 items-center bg-slate-600 justify-between">
+    <header className="fixed top-0 right-0 left-0 flex z-50 h-10 bg-gradient-to-b from-black/20 justify-between">
       <div
         data-tauri-drag-region
-        className=" w-full flex self-stretch items-center gap-x-2 text-white font-light"
+        className="w-full flex self-stretch items-center gap-x-2 text-white"
       >
         <NotepadText className="ml-4" />
         <p>not-tion</p>
       </div>
-      <div className="flex [&>button]:p-2 self-stretch text-gray-400 [&>button]:hover:text-white">
-        <button className="hover:bg-slate-700" onClick={() => win.minimize()}>
+      <div className="flex [&>button]:p-2 self-stretch text-gray-400 [&>button]:hover:text-white ">
+        <button
+          className="hover:bg-gray-700/35 transition-colors ease-in-out duration-200"
+          onClick={() => win.minimize()}
+        >
           <Minus size={16} />
         </button>
         <button
-          className="hover:bg-slate-700"
+          className="hover:bg-gray-700/35 transition-colors ease-in-out duration-200"
           onClick={async () => {
             await win.toggleMaximize();
             setIsMaximized(await win.isMaximized());
@@ -39,10 +42,13 @@ export default function CustomTitlebar() {
         >
           {isMaximized ? <Minimize size={16} /> : <Maximize size={16} />}
         </button>
-        <button className="hover:bg-red-600" onClick={() => win.close()}>
+        <button
+          className="hover:bg-red-600 transition-colors ease-in-out duration-200"
+          onClick={() => win.close()}
+        >
           <X size={16} />
         </button>
       </div>
-    </div>
+    </header>
   );
 }

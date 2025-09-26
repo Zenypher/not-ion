@@ -1,9 +1,25 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
-*[data-tauri-drag-region] {
-  -webkit-app-region: drag;
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
 }
 
-body {
-  overflow: hidden;
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-2 bg-transparent rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent rounded-full;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-track {
+  @apply bg-white/25 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-200;
 }

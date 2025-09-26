@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { app } from "@tauri-apps/api";
 
 async function isTauri() {
@@ -10,9 +10,18 @@ async function isTauri() {
   }
 }
 
-function AppContainer({children}: {children : React.ReactNode}) {
-    console.log(isTauri());
-    return <div className={`flex flex-col min-h-screen ${isTauri() ? "mt-10" : ""}`}>{children}</div>
+function AppContainer({ children }: { children: React.ReactNode }) {
+  const [tauri, setTauri] = useState<boolean>(false);
+
+  useEffect(() => {
+    isTauri().then(setTauri);
+  }, []);
+
+  return (
+    <body className={`flex flex-row ${tauri ? "" : "bg-slate-700"}`}>
+      {children}
+    </body>
+  );
 }
 
 export default AppContainer;
