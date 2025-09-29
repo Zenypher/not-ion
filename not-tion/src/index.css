@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 html,
 body,
 #root {
@@ -22,4 +24,62 @@ body,
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   @apply rounded-full bg-gray-200;
+}
+
+.floating-menu-item {
+  @apply dark:hover:bg-black hover:bg-white text-black dark:text-white text-sm transition-colors ease-linear duration-300 rounded-lg px-4 py-1 hover:cursor-pointer;
+}
+
+.floating-menu-item.is-active {
+  @apply bg-blue-500 font-bold;
+}
+
+.tiptap {
+  hr {
+    color: white;
+      
+  }
+
+  li::marker {
+    @apply dark:text-white text-black;
+  }
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  ul, ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  ul[data-type='taskList'] {
+    list-style-type: none;
+    margin-left: 0;
+    padding: 0;
+
+    li {
+      align-items: flex-start;
+      display: flex;
+
+      > label {
+        flex: 0 0 auto;
+        margin-right: .5rem;
+        user-select: none;
+      }
+      
+      > div {
+        flex: 1 1 auto;
+      }
+
+      ul[data-type='taskList'] {
+        margin: 0;
+      }
+    }
+  }
 }
