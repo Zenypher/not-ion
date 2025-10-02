@@ -9,13 +9,12 @@ interface Document {
 const db = new Dexie('DocumentDatabase') as Dexie & {
   documents: EntityTable<
     Document,
-    'id' // primary key "id" (for the typings only)
+    'id'
   >;
 };
 
-// Schema declaration:
 db.version(1).stores({
-  documents: '++id, content' // primary key "id" (for the runtime!)
+  documents: '++id, content'
 });
 
 export type { Document };

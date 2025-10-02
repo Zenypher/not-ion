@@ -10,45 +10,21 @@ body,
   margin: 0;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  @apply w-2 bg-transparent rounded-full;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-transparent rounded-full;
-}
-
-.custom-scrollbar:hover::-webkit-scrollbar-track {
-  @apply bg-white/25 rounded-full;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-gray-200;
-}
-
-.floating-menu-item {
-  @apply dark:hover:bg-black hover:bg-white text-black dark:text-white text-sm transition-colors ease-linear duration-300 rounded-lg px-4 py-1 hover:cursor-pointer;
-}
-
-.floating-menu-item.is-active {
-  @apply bg-blue-500 font-bold;
-}
-
 .tiptap {
   hr {
     color: white;
-      
   }
 
   li::marker {
-    @apply dark:text-white text-black;
+    @apply text-black dark:text-white;
   }
 
   :first-child {
     margin-top: 0;
   }
 
-  ul, ol {
+  ul,
+  ol {
     padding: 0 1rem;
     margin: 1.25rem 1rem 1.25rem 0.4rem;
 
@@ -66,13 +42,14 @@ body,
     li {
       align-items: flex-start;
       display: flex;
+      @apply p-4 dark:bg-stone-700 rounded-xl bg-stone-200 shadow-xl;
 
       > label {
         flex: 0 0 auto;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
         user-select: none;
       }
-      
+
       > div {
         flex: 1 1 auto;
       }
@@ -82,4 +59,43 @@ body,
       }
     }
   }
+}
+
+.sidebar-hidden {
+  @apply w-18;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-width: 72px;
+  max-width: 500px;
+  z-index: 2;
+}
+
+.sidebar .sidebar-content {
+  flex: 1;
+}
+
+.sidebar .sidebar-resizer {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 6px;
+  justify-self: end;
+  cursor: col-resize;
+  resize: horizontal;
+}
+
+.sidebar-resizable .sidebar-resizer:hover {
+  width: 10px;
+  @apply bg-zinc-500 rounded-full;
+}
+
+.custom-bttn {
+  @apply shadow-sm hover:shadow-lg hover:cursor-pointer
+        hover:bg-blue-300 hover:text-zinc-950 transition-all duration-200
+        ease-out bg-zinc-100 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-50 p-2
+        rounded-xl self-start inset-shadow-xs inset-shadow-zinc-50/25;
 }

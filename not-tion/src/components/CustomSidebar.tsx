@@ -1,95 +1,118 @@
 'use client';
 
-import { Moon, Sun } from 'lucide-react';
-import { db } from '../ds';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import clsx from 'clsx';
+import DarkModeToggle from './DarkModeToggle';
+import { Menu } from 'lucide-react';
 
 export default function CustomSidebar() {
-  const docs = useLiveQuery(async () => {
-    return await db.documents.toArray();
-  });
+  const sidebarRef = useRef<HTMLInputElement | null>(null);
+  const [isResizing, setIsResizing] = useState<boolean>(false);
+  const [sidebarWidth, setSidebarWidth] = useState(268);
 
-  const [isDark, setDark] = useState<boolean>(false);
+  {
+    /* Hide sidebar logic */
+  }
+  const [isHidden, setHidden] = useState<boolean>(false);
 
-  useEffect(() => {
-    let savedMode = localStorage.getItem('displayMode');
-    if (!savedMode) {
-      savedMode = 'light';
-      setDark(false);
-      localStorage.setItem('displayMode', savedMode);
-    }
-    setDark(savedMode === 'dark' ? true : false);
+  const toggleSidebar = () => {
+    setHidden(!isHidden);
+  };
+
+  const startResizing = useCallback((mouseDownEffect: MouseEvent) => {
+    setIsResizing(true);
   }, []);
 
-  const darkModeHandler = () => {
-    setDark(!isDark);
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-    }
-  };
+  const stopResizing = useCallback(() => {
+    setIsResizing(false);
+  }, []);
+
+  const resize = useCallback(
+    (mouseMoveEvent: MouseEvent) => {
+      if (isResizing) {
+        setSidebarWidth(
+          mouseMoveEvent.clientX -
+            sidebarRef.current!.getBoundingClientRect().left
+        );
+      }
+    },
+    [isResizing]
+  );
+
+  useEffect(() => {
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResizing);
+    return () => {
+      window.addEventListener('mousemove', resize);
+      window.addEventListener('mouseup', stopResizing);
+    };
+  }, [resize, stopResizing]);
 
   return (
     <>
       <nav
-        className="p-4 flex flex-col justify-between gap-4 border-r-2
-          dark:border-white/25 border-black/25"
+        ref={sidebarRef}
+        className={clsx(
+          `p-4 bg-zinc-200 dark:bg-zinc-900 transition-colors duration-300
+          shadow-2xl grow-0 shrink-0 border-r border-zinc-500/25`,
+          'sidebar',
+          `w-[${sidebarWidth}px]`,
+          isHidden ? 'w-18' : ''
+        )}
+        onMouseDown={(e) => e.preventDefault()}
       >
-        <div className="flex flex-col gap-y-4 overflow-y-auto">
+        <div className={isHidden ? 'flex flex-col gap-4 h-full' : 'flex gap-4'}>
           <button
-            className="lg:ml-auto hover:cursor-pointer hover:bg-blue-600
-              hover:text-white transition-colors duration-200 ease-out
-              bg-blue-500 text-white dark:bg-white dark:text-black p-2
-              rounded-xl self-start sm:ml-0 focus:inset-ring-1
-              focus:outline-none"
-            onClick={() => darkModeHandler()}
+            className="custom-bttn"
+            onClick={() => {
+              toggleSidebar();
+            }}
           >
-            {isDark && <Sun />}
-            {!isDark && <Moon />}
+            <Menu />
           </button>
-          {docs && docs?.length > 0 ? (
-            <ul
-              className="custom-scrollbar overflow-y-auto flex flex-col
-                [&>li]:bg-white/10 p-2 [&>li]:hover:cursor-pointer
-                [&>li]:hover:bg-white/20 text-white gap-2 font-light
-                [&>li]:rounded-md"
-            >
-              {docs?.map((doc) => (
-                <li key={doc.id} className="p-2 list-disc">
-                  {doc.content}
-                </li>
-              ))}
-            </ul>
-          ) : (
+          <DarkModeToggle />
+        </div>
+        <div
+          className={clsx(
+            'flex flex-col gap-y-4',
+            'sidebar-content',
+            isHidden ? 'hidden' : ''
+          )}
+        >
+          <div className="flex justify-center gap-x-6"></div>
+          <hr className="dark:text-zinc-50/50 text-zinc-950/50" />
+          <ul
+            className="custom-scrollbar overflow-y-auto flex flex-col
+              [&>li]:bg-white/10 p-2 [&>li]:hover:cursor-pointer
+              [&>li]:hover:bg-white/20 text-white gap-2
+              font-light[&>li]:rounded-md"
+          >
             <div
-              className="dark:text-white dark:bg-white/25 bg-black/25 h-screen
-                flex justify-center items-center rounded-xl font-medium"
+              className="text-zinc-950 dark:text-zinc-50 flex h-screen
+                justify-center items-center rounded-xl font-medium select-none"
             >
               No documents available.
             </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <hr className="dark:text-white/25 text-black/25 border-2 rounded-full" />
-          <div className="flex p-2 gap-4">
-            <img
-              src="https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/user-244.png"
-              alt="icon"
-              className="w-12 bg-blue-100 rounded-xl hover:cursor-pointer
-                hover:scale-105 transition-transform duration-100 ease-out
-                shadow-md"
-            />
+          </ul>
+          <hr className="dark:text-zinc-50/50 text-zinc-950/50" />
+          <div className="flex flex-row gap-4">
             <div
-              className="flex flex-col dark:text-white [&>h3]:font-bold
-                [&>p]:font-light [&>*]:truncate [&>*]:lg:w-50 [&>*]:sm:w-21"
+              className="flex flex-col dark:text-zinc-50 text-zinc-950
+                select-none truncate text-pretty"
             >
-              <h3>John Doe is a big master of disguise</h3>
-              <p>johndoe@email.comdasdasdas</p>
+              <h3 className="font-bold">
+                John Doe is a big master of disguise
+              </h3>
+              <p className="font-extralight">johndoe@email.comdasdasdas</p>
             </div>
           </div>
         </div>
+        <div
+          className="sidebar-resizer"
+          onMouseDown={() => {
+            startResizing;
+          }}
+        ></div>
       </nav>
     </>
   );

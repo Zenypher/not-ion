@@ -20,9 +20,10 @@
         "resizable": true,
         "fullscreen": false,
         "decorations": true,
-        "transparent": true
+        "transparent": false
       }
     ],
+    "macOSPrivateApi": true,
     "security": {
       "csp": null
     }
