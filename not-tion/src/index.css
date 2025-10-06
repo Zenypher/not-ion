@@ -97,5 +97,5 @@ body,
   @apply shadow-sm hover:shadow-lg hover:cursor-pointer
         hover:bg-blue-300 hover:text-zinc-950 transition-all duration-200
         ease-out bg-zinc-100 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-50 p-2
-        rounded-xl self-start inset-shadow-xs inset-shadow-zinc-50/25;
+        rounded-xl inset-shadow-xs inset-shadow-zinc-50/25 self-start;
 }

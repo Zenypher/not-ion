@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import clsx from 'clsx';
 import DarkModeToggle from './DarkModeToggle';
 import { Menu } from 'lucide-react';
+import NotesList from './NotesList';
 
 export default function CustomSidebar() {
   const sidebarRef = useRef<HTMLInputElement | null>(null);
@@ -81,19 +82,6 @@ export default function CustomSidebar() {
         >
           <div className="flex justify-center gap-x-6"></div>
           <hr className="dark:text-zinc-50/50 text-zinc-950/50" />
-          <ul
-            className="custom-scrollbar overflow-y-auto flex flex-col
-              [&>li]:bg-white/10 p-2 [&>li]:hover:cursor-pointer
-              [&>li]:hover:bg-white/20 text-white gap-2
-              font-light[&>li]:rounded-md"
-          >
-            <div
-              className="text-zinc-950 dark:text-zinc-50 flex h-screen
-                justify-center items-center rounded-xl font-medium select-none"
-            >
-              No documents available.
-            </div>
-          </ul>
           <hr className="dark:text-zinc-50/50 text-zinc-950/50" />
           <div className="flex flex-row gap-4">
             <div
