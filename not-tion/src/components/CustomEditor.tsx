@@ -27,7 +27,8 @@ function CustomToolbar() {
           className="sticky top-0 z-1 flex bg-gradient-to-br dark:from-zinc-800
             from-zinc-100 rounded-2xl px-6 py-4 space-x-4 overflow-x-auto
             justify-center custom-scrollbar shadow-md inset-shadow-zinc-50/30
-            inset-shadow-xs select-none"
+            inset-shadow-xs select-none h-[4.6rem] backdrop-blur-xs
+            no-scrollbar"
         >
           <button
             className="custom-bttn"
