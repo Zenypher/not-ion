@@ -10,6 +10,7 @@
     "beforeBuildCommand": "pnpm build"
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
         "title": "not-tion",
@@ -19,9 +20,8 @@
         "minHeight": 300,
         "resizable": true,
         "fullscreen": false,
-        "decorations": true,
-        "transparent": false,
-        "titleBarStyle": "Transparent"
+        "decorations": false,
+        "transparent": false
       }
     ],
     "macOSPrivateApi": true,
