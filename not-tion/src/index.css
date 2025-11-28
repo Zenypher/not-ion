@@ -94,6 +94,10 @@ body,
   aspect-ratio: 1/1;
 }
 
+.is-active {
+  @apply font-bold text-red-500;
+}
+
 .draggable-element {
   -webkit-app-region: drag;
 }
@@ -105,28 +109,10 @@ body,
 .titlebar-btn {
   padding: 3px;
   border-radius: 7.5px;
-  @apply text-zinc-900;
+  @apply text-zinc-900 dark:text-zinc-100;
   transition: all 0.2s ease-in-out;
 }
 
 .titlebar-btn:hover {
-  background-color: white;
-}
-
-.background {
-  background-color: white;
-  /* background-image: url('/public/bg.jpg'); */
-  background-size: cover;
-
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.background {
-  background-color: black;
-  /* background-image: url('/public/bg-dark.jpg'); */
-  background-size: cover;
-
-  will-change: transform;
-  transform: translateZ(0);
+  @apply bg-zinc-100 dark:bg-zinc-900;
 }

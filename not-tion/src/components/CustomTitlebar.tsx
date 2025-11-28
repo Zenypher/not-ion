@@ -1,10 +1,32 @@
 'use client';
 
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { X, Maximize, Minus } from 'lucide-react';
+import { X, Maximize, Minimize, Minus } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function CustomTitlebar() {
   const appWindow = getCurrentWindow();
+
+  const [isMaximized, setIsMaximized] = useState<boolean>(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const checkIsMaximized = async () => {
+      try {
+        const isMax = await appWindow.isMaximized();
+        if (mounted) setIsMaximized(isMax);
+      } catch (error) {
+        console.error('ERROR: ', error);
+      }
+    };
+
+    checkIsMaximized();
+
+    return () => {
+      mounted = false;
+    };
+  });
 
   return (
     <>
@@ -24,9 +46,10 @@ export default function CustomTitlebar() {
           className="titlebar-btn non-draggable-element"
           onClick={() => {
             appWindow.toggleMaximize();
+            console.log(isMaximized);
           }}
         >
-          <Maximize />
+          {isMaximized ? <Minimize /> : <Maximize />}
         </button>
         <button
           className="titlebar-btn non-draggable-element"

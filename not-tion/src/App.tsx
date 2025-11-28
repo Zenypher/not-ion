@@ -1,6 +1,7 @@
-import { CustomEditor, CustomToolbar } from './components/CustomEditor';
+import EditorView from './components/EditorView';
 import CustomSidebar from './components/CustomSidebar';
 import CustomTitlebar from './components/CustomTitlebar';
+import CustomToolbar from './components/EditorToolbar';
 
 import { useState, useEffect } from 'react';
 
@@ -16,7 +17,8 @@ function App() {
   return (
     <div
       className={`grid grid-cols-[auto_1fr] h-screen transition-all duration-200
-        background dark:background-dark bg-cover`}
+        bg-[url('assets/blob-bg.svg')] dark:bg-[url('assets/blob-bg-dark.svg')]
+        bg-cover `}
     >
       <CustomSidebar />
       <main
@@ -25,7 +27,7 @@ function App() {
       >
         {isTauri && <CustomTitlebar />}
         <CustomToolbar />
-        <CustomEditor />
+        <EditorView />
       </main>
     </div>
   );

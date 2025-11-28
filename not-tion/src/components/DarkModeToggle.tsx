@@ -21,11 +21,10 @@ export default function DarkModeToggle() {
 
   return (
     <button
-      className="custom-bttn non-draggable-element"
+      className={'custom-bttn non-draggable-element'}
       onClick={() => darkModeHandler()}
     >
-      {isDark && <Sun />}
-      {!isDark && <Moon />}
+      {isDark ? <Moon /> : <Sun />}
     </button>
   );
 }
